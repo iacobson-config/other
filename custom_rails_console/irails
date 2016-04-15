@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+current_path = Dir.pwd
+`rbenv rehash`
+
+begin
+  gem_path = Gem::Specification.find_by_name('awesome_print').gem_dir + "/lib"
+
+  APP_PATH = File.path("#{current_path}/config/application")
+  $LOAD_PATH << gem_path
+
+  require "#{current_path}/config/boot"
+
+  require 'rails/commands'
+
+rescue Gem::LoadError
+  puts 'awesome print is not installed for this ruby version'
+  puts "run 'gem install awesome_print' and reload the console"
+end
